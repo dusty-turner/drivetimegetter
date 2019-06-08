@@ -6,11 +6,15 @@ library(RSelenium)
 # docker run -d -p 4445:4444 selenium/standalone-firefox:2.53.0
 ## run this after initialization on docker
 
+# here = "center point, texas"
+# there = "west point, ny"
 here = "8109 Jeffrey Ct, Fairfax Station, VA 22039"
 there = "6003 Goethals Rd, Fort Belvoir, VA 22060"
 
+# remDr <- remoteDriver(port = 4445L)
 remDr <- remoteDriver(remoteServerAddr = "192.168.99.100",port = 4445L)
 remDr$open()
+remDr$close()
 
 from = here
 to = there
