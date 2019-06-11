@@ -47,7 +47,7 @@ timefunc = function(from, to) {
     # data[1] %>% as.character() %>% 
     # str_sub(22,27)
   print(data2) ## can clean this up later
-  return(list(data2))
+  return(data.frame(data2, from, to))
 }
 
 time = timefunc(from = here, to = there)
@@ -55,3 +55,5 @@ time = timefunc(from = here, to = there)
 txtony = timefunc(from ="center point, texas", to = "west point, ny")
 witony = timefunc(from ="1400 west woodstone drive appleton, wi", to = "west point, ny")
 stofl = timefunc(from ="seattle, wa", to = "tampa bay, fl")
+flwtowsmr = timefunc(from ="fort leonard wood, mo", to = "white sands missile range, nm")
+
