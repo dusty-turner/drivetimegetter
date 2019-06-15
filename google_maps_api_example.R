@@ -11,7 +11,8 @@ from_address <- "5100+monument+ave+richmond,+va+23230"
 
 gmapsdistance(origin = from_address,
               destination = to_address,
-              mode = "driving") %>%
+              mode = "driving", 
+              traffic_model = "best_guess") %>%
   as.data.frame %>%
   mutate(from = from_address, 
          to = to_address,
@@ -22,7 +23,7 @@ gmapsdistance(origin = from_address,
 drive_time %>%
   write_csv("drive_times.csv", append=TRUE)
 
-# push this all to github
+# push this all to github automagically!!! ----
 
 cred <- git2r::cred_env("GITHUB_UID", "GITHUB_PAT")
 git2r::pull(credentials = cred)
