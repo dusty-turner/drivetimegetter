@@ -21,3 +21,17 @@ gmapsdistance(origin = from_address,
 
 drive_time %>%
   write_csv("drive_times.csv", append=TRUE)
+
+# push this all to github
+
+cred <- git2r::cred_env("GITHUB_UID", "GITHUB_PAT")
+git2r::pull(credentials = cred)
+git2r::commit(message = paste(
+  "automatic run on:",
+  format(Sys.time(), '%Y-%m-%d %H:%M')
+),
+all = TRUE)
+
+git2r::push(credentials = cred)
+
+
