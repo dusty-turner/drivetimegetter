@@ -3,7 +3,6 @@ library(gmapsdistance)
 
 ## function takes a two addresses and updates the output csv with drive times ----
 
-
 get_drive_times <- function(from_address, to_address) {
   ## using an example pair for testing ---
   # to_address <- "215+N+Jefferson+st.+clinton,+ky+42031"
@@ -24,8 +23,6 @@ get_drive_times <- function(from_address, to_address) {
   
   drive_time %>%
     write_csv("drive_times.csv", append = TRUE)
-  
-  
 }
 
 ## gmapsdistance key register
@@ -45,7 +42,6 @@ for (i in 1:nrow(addresses)) {
   print(paste("finished row:", i))
   
 }
-
 
 # push this all to github automagically!!! ----
 
