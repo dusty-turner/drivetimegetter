@@ -8,13 +8,12 @@ get_drive_times(from_address, to_address) {
   ## using an example pair for testing ---
   # to_address <- "215+N+Jefferson+st.+clinton,+ky+42031"
   # from_address <- "5100+monument+ave+richmond,+va+23230"
-
-    gmapsdistance(
+  
+  gmapsdistance(
     origin = from_address,
     destination = to_address,
     mode = "driving",
-    traffic_model = "best_guess"
-  ) %>%
+    traffic_model = "best_guess") %>%
     as.data.frame %>%
     mutate(from = from_address,
            to = to_address,
