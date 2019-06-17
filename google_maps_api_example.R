@@ -59,5 +59,5 @@ repeat {
                 all = TRUE)
   
   git2r::push(credentials = cred)
-  Sys.sleep(900)
+  Sys.sleep(5)
 }
