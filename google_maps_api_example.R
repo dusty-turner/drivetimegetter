@@ -26,43 +26,34 @@ get_drive_times <- function(from_address, to_address) {
 ## gmapsdistance key register
 set.api.key(Sys.getenv("GOOG_MAPS_API"))
 
-repeat{
+# pull from git to make sure we are fresh
+git2r::pull(credentials = cred)
+
+### read in the pairs of addresses from CSV  -----
+addresses <- read_csv("addresses.csv")
+
+for (i in 1:nrow(addresses)) {
+  # don't tell Jenny Bryan that sometimes I find loops easier to grok
   
-  # pull from git to make sure we are fresh
-  git2r::pull(credentials = cred) 
+  to_address <- gsub("\n", "+", addresses[i, ]$to)
+  from_address <- gsub("\n", "+", addresses[i, ]$from)
   
-  ### read in the pairs of addresses from CSV  -----
-  addresses <- read_csv("addresses.csv")
+  to_address <- gsub(" ", "+", to_address)
+  from_address <- gsub(" ", "+", from_address)
+  to_address <- gsub("\r", "+", to_address)
+  from_address <- gsub("\r", "+", from_address)
   
-  for (i in 1:nrow(addresses)) {
-    # don't tell Jenny Bryan that sometimes I find loops easier to grok
-    
-    to_address <- gsub("\n", "+", addresses[i,]$to)
-    from_address <- gsub("\n", "+", addresses[i,]$from)
-    
-    to_address <- gsub(" ", "+", to_address)
-    from_address <- gsub(" ", "+", from_address)
-    to_address <- gsub("\r", "+", to_address)
-    from_address <- gsub("\r", "+", from_address)
-    
-    
-    get_drive_times(to_address, from_address)
-    print(paste("finished row:", i))
-    
-  }
   
-  # push this all to github automagically!!! ----
+  get_drive_times(to_address, from_address)
+  print(paste("finished row:", i))
   
-  cred <- git2r::cred_env("GITHUB_UID", "GITHUB_PAT")
-  git2r::commit(message = paste("automatic run on:",
-                                format(Sys.time(), '%Y-%m-%d %H:%M')),
-                all = TRUE)
-  
-  git2r::push(credentials = cred)
-  
-  # sleep for 15 minutes (900 seconds)
-  Sys.sleep(900)
 }
 
+# push this all to github automagically!!! ----
 
+cred <- git2r::cred_env("GITHUB_UID", "GITHUB_PAT")
+git2r::commit(message = paste("automatic run on:",
+                              format(Sys.time(), '%Y-%m-%d %H:%M')),
+              all = TRUE)
 
+git2r::push(credentials = cred)
