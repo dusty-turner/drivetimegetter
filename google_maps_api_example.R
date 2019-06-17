@@ -32,8 +32,11 @@ addresses <- read_csv("addresses.csv")
 for (i in 1:nrow(addresses)) {
   # don't tell Jenny Bryan that sometimes I find loops easier to grok
   
-  to_address <- gsub(" ", "+", addresses[i, ]$to)
-  from_address <- gsub(" ", "+", addresses[i, ]$from)
+  to_address <- gsub("\n", "+", addresses[i, ]$to)
+  from_address <- gsub("\n", "+", addresses[i, ]$from)
+  
+  to_address <- gsub(" ", "+", to_address)
+  from_address <- gsub(" ", "+", from_address)
   
   
   get_drive_times(to_address, from_address)
