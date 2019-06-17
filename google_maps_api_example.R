@@ -4,7 +4,7 @@ library(gmapsdistance)
 ## function takes a two addresses and updates the output csv with drive times ----
 
 
-get_drive_times(from_address, to_address) {
+get_drive_times <- function(from_address, to_address) {
   ## using an example pair for testing ---
   # to_address <- "215+N+Jefferson+st.+clinton,+ky+42031"
   # from_address <- "5100+monument+ave+richmond,+va+23230"
@@ -13,7 +13,8 @@ get_drive_times(from_address, to_address) {
     origin = from_address,
     destination = to_address,
     mode = "driving",
-    traffic_model = "best_guess") %>%
+    traffic_model = "best_guess"
+  ) %>%
     as.data.frame %>%
     mutate(from = from_address,
            to = to_address,
@@ -45,9 +46,7 @@ addresses <- read_csv("addresses.csv")
 for (i in 1:nrow(addresses)) {
   # don't tell Jenny Bryan that sometimes I find loops easier to grok
   
-  get_drive_times(addresses[i, ]$to_address, addresses[i, ]$from_address)
+  get_drive_times(addresses[i,]$to, addresses[i,]$from)
   print(paste("finished row:", i))
   
 }
-
-
