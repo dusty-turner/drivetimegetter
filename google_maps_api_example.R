@@ -29,6 +29,7 @@ set.api.key(Sys.getenv("GOOG_MAPS_API"))
 
 repeat {
   # pull from git to make sure we are fresh
+  cred <- git2r::cred_env("GITHUB_UID", "GITHUB_PAT")
   git2r::pull(credentials = cred)
   
   ### read in the pairs of addresses from CSV  -----
@@ -53,7 +54,6 @@ repeat {
   
   # push this all to github automagically!!! ----
   
-  cred <- git2r::cred_env("GITHUB_UID", "GITHUB_PAT")
   git2r::commit(message = paste("automatic run on:",
                                 format(Sys.time(), '%Y-%m-%d %H:%M')),
                 all = TRUE)
