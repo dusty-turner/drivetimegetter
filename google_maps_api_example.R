@@ -5,8 +5,6 @@ library(gmapsdistance)
 
 get_drive_times <- function(from_address, to_address) {
   ## using an example pair for testing ---
-  # to_address <- "215+N+Jefferson+st.+clinton,+ky+42031"
-  # from_address <- "5100+monument+ave+richmond,+va+23230"
   
   gmapsdistance(
     origin = from_address,
