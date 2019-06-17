@@ -59,7 +59,7 @@ repeat{
   git2r::push(credentials = cred)
   
   # sleep for 15 minutes (900 seconds)
-  Sys.sleep(9)
+  Sys.sleep(900)
 }
 
 
