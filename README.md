@@ -13,3 +13,6 @@ then run
 
 `docker-machine ip drivetimegetter` shows the IP address... now connect to that IP:8787
 
+if a DO droplet is killed from DO, then delete the machine locally with:
+`rm -rf ~/.docker/machine/drivetimegetter
+
