@@ -19,6 +19,7 @@ knitr::opts_chunk$set(
 ```{r}
 library(tidyverse)
 library(lubridate)
+library(turnR)
 data = read_csv("drive_times.csv", col_names = FALSE) %>%
   rename(Home=X1,Work=X2,Date=X3,DriveTime=X4) %>% ## Make it easier to read
   filter(substr(Work,1,4)=="6003") %>% ## Place the first four letters of your "Work" Address here
@@ -36,11 +37,9 @@ data %>%
   mutate(Breaks = as.POSIXct(cut(Breaks, breaks = "1 hour"))) %>% ## bin 1 hour -- eventually will do 15 mins when I have enought data
   mutate(Breaks = as.factor(format(Breaks, "%H:%M:%S"))) ## extract out just the HMS for plotting purpose and make a factor
 
-cleaned
-
 ```
 
-## Histogram by Bin
+## Histogram by hour
 
 ```{r}
 cleaned %>%
@@ -54,9 +53,15 @@ cleaned %>%
 
 ```{r}
 cleaned %>%
-  ggplot(aes(x=DriveTime,y=0)) +
-  geom_point() +
-  facet_wrap(~Breaks, ncol = 2,dir = "v")
+  ggplot(aes(x=Breaks,y = DriveTime)) +
+  geom_boxplot() +
+  theme_turnR_f() +
+  labs(x="Hour",y="Seconds",title = "Distribution of Drive Times", subtitle = "8109 Jeffery Court to Center for Army Analysis")
+  # facet_wrap(~Breaks, ncol = 2,dir = "v")
+# cleaned %>%
+  # ggplot(aes(x=DriveTime,y=0)) +
+  # geom_point() +
+  # facet_wrap(~Breaks, ncol = 2,dir = "v")
 ```
 
 ### Day of Week
@@ -64,7 +69,8 @@ cleaned %>%
 ```{r}
 cleaned %>%
   ggplot(aes(x=DriveTime)) +
-  geom_density(aes(fill = DayOfWeek), alpha = .3) 
+  geom_density(aes(fill = fct_relevel(DayOfWeek,"Monday","Tuesday","Wednesday","Thursday")), alpha = .3) +
+  labs(fill = "Day of Week")
   # theme(legend.position = "none")
 
 ```
