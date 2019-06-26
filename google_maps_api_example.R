@@ -49,7 +49,8 @@ repeat {
     from_address <- gsub("\r", "+", from_address)
     
     
-    get_drive_times(to_address, from_address)
+    try(get_drive_times(to_address, from_address))
+    
     print(paste("finished row:", i))
     
   }
