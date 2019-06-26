@@ -20,7 +20,7 @@ get_drive_times <- function(run_name, from_address, to_address) {
       to = to_address,
       run_date = Sys.time()
     ) %>%
-    select(from, to, run_date, Time, Distance, Status) ->
+    select(run_name, from, to, run_date, Time, Distance, Status) ->
     drive_time
   
   drive_time %>%
@@ -52,7 +52,7 @@ repeat {
     from_address <- gsub("\r", "+", from_address)
     
     
-    try(get_drive_times(addresses[i, ]$nane, to_address, from_address))
+    try(get_drive_times(addresses[i, ]$name, from_address, to_address ))
     
     print(paste("finished row:", i))
     
