@@ -1,4 +1,5 @@
 library(tidyverse)
+library(lubridate)
 library(gmapsdistance)
 
 ## function takes a two addresses and updates the output csv with drive times ----
@@ -21,6 +22,7 @@ get_drive_times <- function(from_address, to_address) {
   
   drive_time %>%
     write_csv("drive_times.csv", append = TRUE)
+  print(Sys.time() %>% with_tz(tzone = "America/New_York"))
 }
 
 ## gmapsdistance key register
