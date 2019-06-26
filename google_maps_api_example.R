@@ -13,17 +13,19 @@ get_drive_times <- function(run_name, from_address, to_address) {
     mode = "driving",
     traffic_model = "best_guess"
   ) %>%
-    as.data.frame %>% 
+    as.data.frame %>%
     mutate(
       run_name = run_name,
       from = from_address,
       to = to_address,
       run_date = Sys.time()
-    ) %>% 
+    ) %>%
     select(run_name, from, to, run_date, Time, Distance, Status) ->
     drive_time
   
   drive_time %>%
+    write_csv("drive_times.csv", append = TRUE)
+  
   print(Sys.time() %>% with_tz(tzone = "America/New_York"))
 }
 
@@ -42,17 +44,17 @@ repeat {
   for (i in 1:nrow(addresses)) {
     # don't tell Jenny Bryan that sometimes I find loops easier to grok
     
-    to_address <- gsub("\n", "+", addresses[i, ]$to)
-    from_address <- gsub("\n", "+", addresses[i, ]$from)
+    to_address <- gsub("\n", "+", addresses[i,]$to)
+    from_address <- gsub("\n", "+", addresses[i,]$from)
     
     to_address <- gsub(" ", "+", to_address)
     from_address <- gsub(" ", "+", from_address)
     to_address <- gsub("\r", "+", to_address)
     from_address <- gsub("\r", "+", from_address)
     
-    run_name <- addresses[i, ]$name
+    run_name <- addresses[i,]$name
     
-    try(get_drive_times(run_name, from_address, to_address ))
+    try(get_drive_times(run_name, from_address, to_address))
     
     print(paste("finished row:", i))
     
@@ -67,4 +69,3 @@ repeat {
   git2r::push(credentials = cred)
   Sys.sleep(900)
 }
-
