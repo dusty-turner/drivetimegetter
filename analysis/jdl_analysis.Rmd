@@ -17,7 +17,7 @@ library(here)
 * filter data
 * calculate day of week and time
 
-```{r import}
+```{r import, message=FALSE}
 drive_times <- read_csv(here("drive_times.csv"), col_names = FALSE)
 names(drive_times) <-
   c("run_name",
@@ -31,11 +31,24 @@ names(drive_times) <-
 drive_times %>%
   mutate(run_time_eastern = with_tz(force_tz(run_date, "GMT"),  "America/New_York")) %>%
   filter(run_name == "JD") %>%
-  mutate(day = weekdays(run_time_eastern), 
-         time = hour(run_time_eastern) + minute(run_time_eastern)/60, 
-         drive_min = Time / 60) ->
+  mutate(
+    day = fct_inorder(weekdays(run_time_eastern),
+                      factor(
+                        c(
+                          "Sunday",
+                          "Monday",
+                          "Tuesday",
+                          "Wednesday",
+                          "Thursday",
+                          "Friday",
+                          "Saturday"
+                        )
+                      )),
+    time = hour(run_time_eastern) + minute(run_time_eastern) / 60,
+    drive_min = Time / 60
+  ) ->
   drive_times_localized
-  
+
 ```
 
 Now we have the drive time localized let's plot
@@ -50,10 +63,16 @@ drive_times_localized %>%
 
 
 p <- ggplot(weekday_times, aes(x = day, y = drive_min, fill = from)) +
-  geom_boxplot(outlier.colour="black") 
+  geom_boxplot(outlier.colour="black") +
+  labs(title = "Drive time to Steward by week day",
+       x = "",
+       y = "Drive (minutes)")
 
 p
 
 ```
+
+Run from `r date(min(weekday_times$run_time_eastern))` to `r date(max(weekday_times$run_time_eastern))`.
+
 
 
