@@ -1,0 +1,59 @@
+---
+title: "Drive Time Analysis"
+author: "JD Long"
+date: "7/1/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(lubridate)
+library(here)
+```
+
+* Import the source data
+* change dates to eastern
+* filter data
+* calculate day of week and time
+
+```{r import}
+drive_times <- read_csv(here("drive_times.csv"), col_names = FALSE)
+names(drive_times) <-
+  c("run_name",
+    "from",
+    "to",
+    "run_date",
+    "Time",
+    "Distance",
+    "Status")
+
+drive_times %>%
+  mutate(run_time_eastern = with_tz(force_tz(run_date, "GMT"),  "America/New_York")) %>%
+  filter(run_name == "JD") %>%
+  mutate(day = weekdays(run_time_eastern), 
+         time = hour(run_time_eastern) + minute(run_time_eastern)/60, 
+         drive_min = Time / 60) ->
+  drive_times_localized
+  
+```
+
+Now we have the drive time localized let's plot
+
+
+```{r plotting}
+drive_times_localized %>%
+  filter(!day %in% c("Saturday","Sunday"), 
+         to == "11600+Gayton+Rd,+Richmond,+VA+23238", 
+         time > 7 & time < 8) ->
+  weekday_times
+
+
+p <- ggplot(weekday_times, aes(x = day, y = drive_min, fill = from)) +
+  geom_boxplot(outlier.colour="black") 
+
+p
+
+```
+
+
