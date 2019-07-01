@@ -1,6 +1,7 @@
 library(tidyverse)
 library(lubridate)
 library(gmapsdistance)
+library(here)
 
 ## function takes a two addresses and updates the output csv with drive times ----
 
@@ -59,6 +60,12 @@ repeat {
     print(paste("finished row:", i))
     
   }
+  
+  # build JDL analysis
+  rmarkdown::render(
+    here("analysis", "jdl_analysis.Rmd"),
+    output_file = here("analysis", "jdl_analysis.html")
+  )
   
   # push this all to github automagically!!! ----
   
