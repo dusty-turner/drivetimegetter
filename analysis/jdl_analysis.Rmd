@@ -31,19 +31,17 @@ names(drive_times) <-
 drive_times %>%
   mutate(run_time_eastern = with_tz(force_tz(run_date, "GMT"),  "America/New_York")) %>%
   filter(run_name == "JD") %>%
-  mutate(
-    day = fct_inorder(weekdays(run_time_eastern),
-                      factor(
-                        c(
-                          "Sunday",
-                          "Monday",
-                          "Tuesday",
-                          "Wednesday",
-                          "Thursday",
-                          "Friday",
-                          "Saturday"
-                        )
-                      )),
+  mutate(day = factor(weekdays(run_time_eastern),
+                             levels =
+                               c(
+                                 "Sunday",
+                                 "Monday",
+                                 "Tuesday",
+                                 "Wednesday",
+                                 "Thursday",
+                                 "Friday",
+                                 "Saturday"
+                               )),
     time = hour(run_time_eastern) + minute(run_time_eastern) / 60,
     drive_min = Time / 60
   ) ->
@@ -60,7 +58,6 @@ drive_times_localized %>%
          to == "11600+Gayton+Rd,+Richmond,+VA+23238", 
          time > 7 & time < 8) ->
   weekday_times
-
 
 p <- ggplot(weekday_times, aes(x = day, y = drive_min, fill = from)) +
   geom_boxplot(outlier.colour="black") +
