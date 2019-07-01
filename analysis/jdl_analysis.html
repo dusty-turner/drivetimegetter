@@ -387,8 +387,13 @@ $(document).ready(function () {
 <li>filter data</li>
 <li>calculate day of week and time</li>
 </ul>
-<pre class="r"><code>drive_times &lt;- read_csv(here(&quot;drive_times.csv&quot;), col_names = FALSE)
-names(drive_times) &lt;-
+<pre class="r"><code>drive_times &lt;- read_csv(here(&quot;drive_times.csv&quot;), col_names = FALSE)</code></pre>
+<pre><code>## Warning: 3 parsing failures.
+##  row col  expected    actual                                            file
+## 2993  -- 7 columns 1 columns '/home/rstudio/drivetimegetter/drive_times.csv'
+## 2999  -- 7 columns 1 columns '/home/rstudio/drivetimegetter/drive_times.csv'
+## 3005  -- 7 columns 1 columns '/home/rstudio/drivetimegetter/drive_times.csv'</code></pre>
+<pre class="r"><code>names(drive_times) &lt;-
   c(&quot;run_name&quot;,
     &quot;from&quot;,
     &quot;to&quot;,

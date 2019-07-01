@@ -33,32 +33,36 @@ get_drive_times <- function(run_name, from_address, to_address) {
 ## gmapsdistance key register
 set.api.key(Sys.getenv("GOOG_MAPS_API"))
 
-
 repeat {
-  # pull from git to make sure we are fresh
-  cred <- git2r::cred_env("GITHUB_UID", "GITHUB_PAT")
-  git2r::pull(credentials = cred)
+  ## only run from 5:00 to 20:00
+  current_time_hour_nyc <-
+    Sys.time() %>% with_tz(tzone = "America/New_York") %>% hour()
   
-  ### read in the pairs of addresses from CSV  -----
-  addresses <- read_csv("addresses.csv")
-  
-  for (i in 1:nrow(addresses)) {
-    # don't tell Jenny Bryan that sometimes I find loops easier to grok
+  if (current_time_hour_nyc < 23 & current_time_hour_nyc >= 5) {
+    # pull from git to make sure we are fresh
+    cred <- git2r::cred_env("GITHUB_UID", "GITHUB_PAT")
+    git2r::pull(credentials = cred)
     
-    to_address <- gsub("\n", "+", addresses[i,]$to)
-    from_address <- gsub("\n", "+", addresses[i,]$from)
+    ### read in the pairs of addresses from CSV  -----
+    addresses <- read_csv("addresses.csv")
     
-    to_address <- gsub(" ", "+", to_address)
-    from_address <- gsub(" ", "+", from_address)
-    to_address <- gsub("\r", "+", to_address)
-    from_address <- gsub("\r", "+", from_address)
-    
-    run_name <- addresses[i,]$name
-    
-    try(get_drive_times(run_name, from_address, to_address))
-    
-    print(paste("finished row:", i))
-    
+    for (i in 1:nrow(addresses)) {
+      # don't tell Jenny Bryan that sometimes I find loops easier to grok
+      
+      to_address <- gsub("\n", "+", addresses[i, ]$to)
+      from_address <- gsub("\n", "+", addresses[i, ]$from)
+      
+      to_address <- gsub(" ", "+", to_address)
+      from_address <- gsub(" ", "+", from_address)
+      to_address <- gsub("\r", "+", to_address)
+      from_address <- gsub("\r", "+", from_address)
+      
+      run_name <- addresses[i, ]$name
+      
+      try(get_drive_times(run_name, from_address, to_address))
+      
+      print(paste("finished row:", i))
+    }
   }
   
   # build JDL analysis
