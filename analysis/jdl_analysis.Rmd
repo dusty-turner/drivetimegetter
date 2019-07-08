@@ -61,7 +61,25 @@ drive_times_localized %>%
 
 p <- ggplot(weekday_times, aes(x = day, y = drive_min, fill = from)) +
   geom_boxplot(outlier.colour="black") +
-  labs(title = "Drive time to Steward by week day",
+  labs(title = "Drive time to Steward by week day. 7-8 AM",
+       x = "",
+       y = "Drive (minutes)")
+
+p
+
+```
+
+
+```{r plotting_from}
+drive_times_localized %>%
+  filter(!day %in% c("Saturday","Sunday"), 
+         from == "11600+Gayton+Rd,+Richmond,+VA+23238", 
+         time > 16 & time < 18) ->
+  weekday_times
+
+p <- ggplot(weekday_times, aes(x = day, y = drive_min, fill = to)) +
+  geom_boxplot(outlier.colour="black") +
+  labs(title = "Drive time from Steward by week day. 4-6 PM",
        x = "",
        y = "Drive (minutes)")
 
