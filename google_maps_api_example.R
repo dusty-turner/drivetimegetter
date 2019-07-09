@@ -87,7 +87,7 @@ repeat {
   ## dusty's text message dorking around attempts
   try({
     
-  # if (current_time_hour_nyc == 8 & current_time_hour_nyc <= 16) {
+  if (current_time_hour_nyc == 6 & current_time_hour_nyc <= 16) {
   time = read_csv("drive_times.csv", col_names = FALSE) %>%
       filter(X1=="Dusty") %>%
       filter(substr(X3,1,4)=="6003") %>%
@@ -101,7 +101,7 @@ repeat {
   twilios_phone_number <- "18305223002"
   tw_send_message(from = twilios_phone_number, to = my_phone_number, 
                   body = statement)
-  # }
+  }
   })
   Sys.sleep(900)
 }
