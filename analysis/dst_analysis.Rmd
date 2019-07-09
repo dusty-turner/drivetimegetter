@@ -1,0 +1,103 @@
+---
+title: "Home to Work Drive Time Analysis"
+# author: "Dusty and JD"
+date: "`r format(Sys.time(), '%d %B %Y @ %H:%M')`"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE
+)
+library(tidyverse)
+library(lubridate)
+library(turnR)
+library(here)
+```
+
+<!-- ## Read in and Clean Data -->
+
+```{r}
+
+data = read_csv(here("drive_times.csv"), col_names = FALSE) %>% 
+  rename(Name = X1,Home=X2,Work=X3,Date=X4,DriveTime=X5) %>% ## Make it easier to read
+  # filter(substr(Work,1,4)=="6003") %>% ## Place the first four letters of your "Work" Address here
+  # filter(substr(Home,1,4)=="8109") %>% ## Place the first four letters of your "Home" Address here
+  select(-c(X6,X7)) ## Removes these columns for now
+
+cleaned = 
+data %>% 
+  filter(Name=="Dusty") %>%
+  mutate(Work = str_replace_all(Work,"\\+"," ")) %>%
+  mutate(Home = str_replace_all(Home,"\\+"," ")) %>%
+  # select(-c(Home,Work)) %>% ## temporarily removed for viewing
+  mutate(Date = as.POSIXct(Date)) %>% ## must do this to make future comands work
+  mutate(Date = with_tz(Date, tzone = "America/New_York")) %>% ## make this the eastern time zone
+  mutate(DayOfWeek = weekdays(Date)) %>% ## find what day of week 
+  filter(DayOfWeek != "Sunday" && DayOfWeek != "Saturday") %>% ## filter out weekends
+  mutate(Breaks = round_date(Date, "15 mins")) %>% ## floor to the lowest 15 minutes
+  mutate(Breaks = as.POSIXct(cut(Breaks, breaks = "1 hour"))) %>% ## bin 1 hour -- eventually will do 15 mins when I have enought data
+  mutate(Breaks = as.factor(format(Breaks, "%H:%M:%S"))) ## extract out just the HMS for plotting purpose and make a factor
+
+```
+
+```{r}
+time =  cleaned %>%
+      filter(Name=="Dusty") %>%
+      filter(substr(Work,1,4)=="6003") %>%
+      filter(Date==max(Date)) %>%
+      select(DriveTime)
+  statement = paste("Your current drive time is between", floor(time$DriveTime/60), "and", ceiling(time$DriveTime/60), "minutes")
+  statement
+```
+
+
+<!-- ## Histogram by hour -->
+
+```{r}
+cleaned %>%
+  mutate(DriveTime = DriveTime/60) %>%
+  ggplot(aes(x=DriveTime, fill = Work)) +
+  geom_histogram() +
+  facet_wrap(~Breaks, nrow = 4) +
+  labs(x="Minutes", title = "Drive Time to Work by Hour", caption = "Red: CAA \n Blue: Pentagon", y = "") +
+  turnR::theme_turnR_f()
+```
+
+<!-- ## Plot of time to see spread -->
+
+```{r}
+cleaned %>%
+  filter(substr(Home,1,4)=="8109") %>%
+  mutate(Minutes = round(DriveTime/60,2)) %>%
+  ggplot(aes(x=Breaks,y = Minutes, fill = Work)) +
+  geom_boxplot() +
+  # facet_wrap(~Work) +
+  theme_turnR_f() +
+  labs(x="Hour",y="Minutes",title = "Distribution of Drive Times", 
+       subtitle = "From 8109 Jeffery Court to CAA / Pentagon", 
+       caption = "Red: CAA \nBlue: Pentagon")
+```
+
+<!-- ### Day of Week -->
+
+```{r}
+cleaned %>%
+  filter(substr(Home,1,4)=="8109") %>%  
+  filter(Breaks=="05:00:00"|Breaks=="06:00:00"|Breaks=="07:00:00"|Breaks=="08:00:00") %>%
+  mutate(DriveTime = DriveTime/60,4) %>%
+  ggplot(aes(x=fct_relevel(DayOfWeek,"Monday","Tuesday","Wednesday","Thursday"),y=DriveTime)) +
+  # geom_boxplot()
+  geom_boxplot(aes(fill = fct_relevel(DayOfWeek,"Monday","Tuesday","Wednesday","Thursday"))) +
+  facet_grid(Breaks~Work) +
+  labs(fill = "Day of Week", x= "Day of Week", y = "Minutes", 
+       title = "Morning Drive Times to Work") + 
+  turnR::theme_turnR_f()
+```
+
+
