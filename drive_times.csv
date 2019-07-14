@@ -9495,3 +9495,12 @@ JD,"12313+Reed+Forest+Ct,+Glen+Allen,+VA+23059","11600+Gayton+Rd,+Richmond,+VA+2
 JD,"11600+Gayton+Rd,+Richmond,+VA+23238","2719+Kenmont+Terrace,+Midlothian,+VA+23113",2019-07-14T15:21:09Z,968,17339,OK
 JD,"11600+Gayton+Rd,+Richmond,+VA+23238","12501+Serenity+Ct,+Glen+Allen,+va+23238",2019-07-14T15:21:10Z,794,10793,OK
 JD,"12501+Serenity+Ct,+Glen+Allen,+va+23238","11600+Gayton+Rd,+Richmond,+VA+23238",2019-07-14T15:21:10Z,800,10803,OK
+Dusty,8109+Jeffrey+Court+Fairfax+Court+22039,"6003+Goethals+Road+Fort+Belvoir,+VA+22060",2019-07-14T15:36:16Z,1362,17044,OK
+Dusty,8109+Jeffrey+Court+Fairfax+Court+22039,"The+Pentagon,+Washington,+DC+22202",2019-07-14T15:36:16Z,1333,29096,OK
+Dusty,"6003+Goethals+Road+Fort+Belvoir,+VA+22060",8109+Jeffrey+Court+Fairfax+Court+22039,2019-07-14T15:36:17Z,1321,16009,OK
+Dusty,"The+Pentagon,+Washington,+DC+22202",8109+Jeffrey+Court+Fairfax+Court+22039,2019-07-14T15:36:17Z,1519,30055,OK
+JD,"2719+Kenmont+Ter,+Midlothian,+VA+23113","11600+Gayton+Rd,+Richmond,+VA+23238",2019-07-14T15:36:18Z,887,15902,OK
+JD,"12313+Reed+Forest+Ct,+Glen+Allen,+VA+23059","11600+Gayton+Rd,+Richmond,+VA+23238",2019-07-14T15:36:18Z,975,13259,OK
+JD,"11600+Gayton+Rd,+Richmond,+VA+23238","2719+Kenmont+Terrace,+Midlothian,+VA+23113",2019-07-14T15:36:19Z,953,17339,OK
+JD,"11600+Gayton+Rd,+Richmond,+VA+23238","12501+Serenity+Ct,+Glen+Allen,+va+23238",2019-07-14T15:36:19Z,784,10142,OK
+JD,"12501+Serenity+Ct,+Glen+Allen,+va+23238","11600+Gayton+Rd,+Richmond,+VA+23238",2019-07-14T15:36:19Z,804,10803,OK
