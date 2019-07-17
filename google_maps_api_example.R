@@ -73,6 +73,12 @@ repeat {
     here("analysis", "jdl_analysis.Rmd"),
     output_file = here("analysis", "jdl_analysis.html")
   )
+
+  # build DST analysis
+  rmarkdown::render(
+    here("analysis", "dst_analysis.Rmd"),
+    output_file = here("analysis", "dst_analysis.pdf")
+  )
   
   # push this all to github automagically!!! ----
   
