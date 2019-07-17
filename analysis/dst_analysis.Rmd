@@ -2,10 +2,7 @@
 title: "Home to Work Drive Time Analysis"
 # author: "Dusty and JD"
 date: "`r format(Sys.time(), '%d %B %Y @ %H:%M')`"
-output:
-  html_document:
-    df_print: paged
-  pdf_document: default
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
