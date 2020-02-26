@@ -101,10 +101,10 @@ repeat {
       select(X5)
   statement = paste("Your current drive time is between", floor(time$X5/60), "and", ceiling(time$X5/60), "minutes")
   library(twilio)
-  Sys.setenv(TWILIO_SID = "AC86efcce023eecaba55949f425edb9283")
-  Sys.setenv(TWILIO_TOKEN = "5fdeb09fa990fe1f657a11fcdf4630b3")
-  my_phone_number <- "18302855067"
-  twilios_phone_number <- "18305223002"
+  Sys.setenv(TWILIO_SID = "XXX")
+  Sys.setenv(TWILIO_TOKEN = "XXX")
+  my_phone_number <- "XXX"
+  twilios_phone_number <- "XXX"
   tw_send_message(from = twilios_phone_number, to = my_phone_number, 
                   body = statement)
   }
